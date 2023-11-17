@@ -3,6 +3,7 @@ package com.samra.newsapp.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +77,8 @@ class HomeFragment : Fragment() {
         data = ArticleList(listOf(), "", 0)
         topData = ArticleList(listOf(), "", 0)
         language = sharedPreferences.getString(Constants.language, "en").toString()
-        newsViewModel.getNews("", language)
+        Log.d("Semraaa", "salam")
+        newsViewModel.getNews(Constants.query, language)
         binding.langText.setText(language.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(
                 Locale.ROOT
@@ -90,6 +92,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                Constants.query = newText
                 return false
             }
         })
@@ -97,9 +100,7 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToLanguageFragment()
             findNavController().navigate(action)
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            newsViewModel.getTopNews(language)
-        }
+        newsViewModel.getTopNews(language)
         recyclerViewCards.adapter = cardsAdapter
         recyclerViewNews.adapter = newsAdapter
 
