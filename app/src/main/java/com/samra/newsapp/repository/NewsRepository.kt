@@ -16,7 +16,7 @@ class NewsRepository @Inject constructor(private val newsApi: NewsApi )  {
             }
     }
 
-    fun getNews(search: String , lang: String):Flow<ArticleList> =flow {
+    fun getNews(search: String , lang: String):Flow<ArticleList> = flow {
             val result = newsApi.getNews(search=search ,lang=lang).body()
             if (result != null) {
                 emit(result)

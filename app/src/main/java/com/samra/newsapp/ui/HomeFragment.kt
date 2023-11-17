@@ -76,6 +76,7 @@ class HomeFragment : Fragment() {
         data = ArticleList(listOf(), "", 0)
         topData = ArticleList(listOf(), "", 0)
         language = sharedPreferences.getString(Constants.language, "en").toString()
+        newsViewModel.getNews("", language)
         binding.langText.setText(language.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(
                 Locale.ROOT
